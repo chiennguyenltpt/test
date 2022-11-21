@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <img src="./lolMusk.jpeg" alt="">
+        <h2>Spend Elon Musk's Fortune!</h2>
+        <h3>If Elon cashed out all of his stocks & assets today he would have <br>
+            approximately $217,000,000,000 (US Dollars) in his bank account. <br> ¿What would you spend it on?<br>
+            Have your receipt at the end!
+        </h3>
+
+    </div>
+    <div class="total">
+        <p class="totalMoney" id="totalMoney"><p class="totalMoney">Remaining:216,999,993,001 USD></p>
+        <p class="percentageLeft" id="percentageLeft"><p class="percentageLeft">You only spent 0.000003 % of the total!</p></p>
+    </div>
+
+    <div class="container">
+
+    </div>
+</body>
+    <script >
+        const data =[
+            {name:'AirPods Pro',price:'USD 2492',img:'./image/image2.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 24923',img:'./image/image3.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 24932',img:'./image/image4.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 1231',img:'./image/image5.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 2321',img:'./image/image6.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 1231',img:'./image/image7.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 2493',img:'./image/image9.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 32331',img:'./image/image12.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 2323',img:'./image/image14.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 323',img:'./image/image9.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 223',img:'./image/image9.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 2331',img:'./image/image11.jpg',total:0},
+            {name:'AirPods Pro',price:'USD 3123',img:'./image/image15.jpg',total:0},
+        ];
+        let container = document.getElementsByClassName('container')
+        let layOut = ''
+        for(let i = 0;i<data.length;i++){
+            layOut+=`
+            <div class="cart">
+            <img src="${data[i].img}" alt="">
+            <p id="name">${data[i].name}</p>
+            <span class="price">${data[i].price}</span>
+            <div class="buyAndSellContainer">
+                <button class="btn-sell" >Sell</button>
+                <span class="amount">${data[i].total}</span>
+                <button class="btn-buy" >Buy</button>
+            </div>
+        </div>
+            `
+            
+            
+        }
+        container[0].innerHTML = layOut
+        var btn_buy=document.getElementsByClassName("btn-buy");
+        var btn_sell = document.querySelectorAll('.btn-sell');
+        
+        let newBtn_sell = []
+        for(i in btn_sell){
+            if(btn_sell[i]){
+                newBtn_sell.push(btn_sell[i])
+            }
+        }
+        console.log(newBtn_sell,111);
+        var cart = document.getElementsByClassName("cart");
+        var price = document.getElementsByClassName('price');
+        var amount = document.querySelectorAll('.amount')
+        //console.log(amount);
+        var newAmount =[]
+        for(i in amount){
+            //console.log(amount[i]);
+            if (amount[i]) {
+                newAmount.push(amount[i])
+            }
+        }
+        newAmount.length =13
+        console.log(newAmount);
+        let totalMoney = document.getElementsByClassName('totalMoney')[1]
+        var rate = document.getElementsByClassName('percentageLeft')[1];
+        var valueResult = totalMoney.textContent.slice(10,25).replace(/\,/g, '')
+
+        //su kien click buy buy
+        for(let i =0;i<btn_buy.length;i++){
+            btn_buy[i].addEventListener('click',()=>{
+                amount[i].innerHTML=Number(Number(amount[i].innerHTML)+1)
+                let sumTotal = valueResult - totalPay()
+                totalMoney.innerHTML = 'Remaining:'+ sumTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "USD"
+                let percent = (totalPay()/valueResult)*100
+                rate.innerHTML = `You only spent ${percent.toFixed(6)} % of the total!`
+            })
+        }
+        for (let i=0;i<newAmount.length;i++){
+            newBtn_sell[i].addEventListener('click',()=>{
+                console.log(valueResult,11);
+                newAmount[i].innerHTML=Number(Number(newAmount[i].innerHTML) -1)
+               
+                let sumTotal =Number(valueResult )+ Number((price[i].innerHTML).replace("USD ",''))
+                totalMoney.innerHTML = 'Remaining:'+ sumTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "USD"
+                let percent = (totalPay()/valueResult)*100
+                rate.innerHTML = `You only spent ${percent.toFixed(6)} % of the total!`
+            })
+        }
+        function totalPay(){
+            let sum = 0
+            for(let i=0;i<cart.length;i++){
+                sum+= Number((price[i].innerHTML).replace("USD ",'')) * Number(amount[i].innerHTML)
+            }
+            return sum
+
+        }
+
+
+        
+
+    </script>
+</html>
